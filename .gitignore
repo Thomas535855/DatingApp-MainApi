@@ -1,0 +1,7 @@
+﻿/ormconfig.ts
+**/.DS_Store
+/node_modules
+/dist
+/logs
+.env.production
+/.env.development
