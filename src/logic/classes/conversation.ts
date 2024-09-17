@@ -52,9 +52,9 @@ export default class Conversation implements IConversation {
             throw new Error("Conversation not found");
         }
 
-        this._match_id = conversation.match.id;
+        this._match_id = conversation.match?.id;
 
-        this._messages = conversation.messages.map((message) => {
+        this._messages = conversation.messages?.map((message) => {
             const messageDto: MessageDto = {
                 id: message.id,
                 content: message.content,
@@ -63,7 +63,7 @@ export default class Conversation implements IConversation {
                 user_id: message.user?.id ?? undefined,
             };
             return new Message(messageDto);
-        });
+        }) || [];
     }
 
     async update(): Promise<void> {

@@ -51,8 +51,8 @@ export default class Message implements IMessage {
         }
 
         this._content = message.content;
-        this._conversation_id = message.conversation.id;
-        this._user_id = message.user.id;
+        this._conversation_id = message.conversation?.id;
+        this._user_id = message.user?.id;
         this._created_date = message.created_date ?? undefined;
     }
     

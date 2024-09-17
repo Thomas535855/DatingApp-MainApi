@@ -10,26 +10,26 @@ import { MessageEntity } from "./MessageEntity";
 @Entity("User", { schema: "public" })
 export class UserEntity { // Just export the class
   @PrimaryGeneratedColumn()
-  id: number;
+  id?: number;
 
   @Column({ type: "varchar", length: 100 })
-  first_name: string;
+  first_name?: string;
 
   @Column({ type: "date" })
-  date_of_birth: Date;
+  date_of_birth?: Date;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  location: string | null;
+  location?: string | null;
 
   @Column({ type: "varchar", length: 255, nullable: true })
-  profile_picture: string | null;
+  profile_picture?: string | null;
 
   @OneToMany(() => MatchEntity, (match) => match.user_id_one)
-  matches: MatchEntity[];
+  matches?: MatchEntity[];
 
   @OneToMany(() => MatchEntity, (match) => match.user_id_two)
-  matches2: MatchEntity[];
+  matches2?: MatchEntity[];
 
   @OneToMany(() => MessageEntity, (message) => message.user)
-  messages: MessageEntity[];
+  messages?: MessageEntity[];
 }

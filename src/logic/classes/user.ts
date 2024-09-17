@@ -54,7 +54,7 @@ export default class User implements IUser {
         this._date_of_birth = user.date_of_birth ?? undefined;
         this._location = user.location ?? undefined;
         this._profile_picture = user.profile_picture ?? undefined;
-        this._matches = user.matches.map((match) => new Match(match));
+        this._matches = user.matches?.map((match) => new Match(match)) || [];
     }
     
     async update(): Promise<void> {
