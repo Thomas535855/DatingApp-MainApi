@@ -5,7 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "node --loader ts-node/esm ./node_modules/mocha/bin/mocha src/tests/**/*.test.ts",
+    "test": "mocha --require tsx 'src/tests/testRun.ts'",
     "dev": "tsx watch ./src/index.ts"
   },
   "keywords": [],

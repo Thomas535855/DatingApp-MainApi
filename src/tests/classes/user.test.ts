@@ -1,10 +1,8 @@
 ﻿import { expect } from 'chai';
 import sinon from 'sinon';
 import { AppDataSource } from '../../data-source';
-import { UserEntity } from '../../database/entity';
 import User from '../../logic/classes/user';
 import { UserDto } from '../../interfaces/dto';
-import Match from '../../logic/classes/match';
 
 // Mock data
 const mockUserDto: UserDto = {
@@ -63,7 +61,7 @@ describe('User class', () => {
             user.id = undefined;
             try {
                 await user.read();
-            } catch (err) {
+            } catch (err:any) {
                 expect(err.message).to.equal('User ID is undefined');
             }
         });
@@ -93,7 +91,7 @@ describe('User class', () => {
             user.id = undefined;
             try {
                 await user.update();
-            } catch (err) {
+            } catch (err:any) {
                 expect(err.message).to.equal('User ID is undefined');
             }
         });
@@ -111,7 +109,7 @@ describe('User class', () => {
             user.id = undefined;
             try {
                 await user.delete();
-            } catch (err) {
+            } catch (err:any) {
                 expect(err.message).to.equal('User ID is undefined');
             }
         });
