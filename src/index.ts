@@ -38,7 +38,7 @@ app.use((req, res, next) => {
 });
 
 // Initialize the database connection
-AppDataSource.initialize()
+await AppDataSource.initialize()
     .then(() => {
       console.log("Data Source has been initialized successfully.");
 
@@ -55,4 +55,3 @@ AppDataSource.initialize()
 // Load routes after initializing DB
 import userRouter from "./routes/user";
 app.use("/user", userRouter);
-

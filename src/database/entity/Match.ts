@@ -20,9 +20,9 @@ export class Match {
 
   @ManyToOne(() => User, (user) => user.matches, { onDelete: "CASCADE" })
   @JoinColumn([{ name: "user_id_one", referencedColumnName: "id" }])
-  userIdOne: User;
+  user_id_one: User;
 
   @ManyToOne(() => User, (user) => user.matches2, { onDelete: "CASCADE" })
   @JoinColumn([{ name: "user_id_two", referencedColumnName: "id" }])
-  userIdTwo: User;
+  user_id_two: User;
 }

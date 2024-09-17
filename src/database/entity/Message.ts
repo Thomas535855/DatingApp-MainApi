@@ -23,7 +23,7 @@ export class Message {
     nullable: true,
     default: () => "CURRENT_TIMESTAMP",
   })
-  createdDate: Date | null;
+  created_date: Date | null;
 
   @ManyToOne(() => Conversation, (conversation) => conversation.messages, {
     onDelete: "CASCADE",
