@@ -4,11 +4,11 @@ import {
   PrimaryGeneratedColumn,
   OneToMany,
 } from "typeorm";
-import { Match } from "./Match";
-import { Message } from "./Message";
+import { MatchEntity } from "./MatchEntity";
+import { MessageEntity } from "./MessageEntity";
 
 @Entity("User", { schema: "public" })
-export class UserEntity {
+export class UserEntity { // Just export the class
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,12 +24,12 @@ export class UserEntity {
   @Column({ type: "varchar", length: 255, nullable: true })
   profile_picture: string | null;
 
-  @OneToMany(() => Match, (match) => match.user_id_one)
-  matches: Match[];
+  @OneToMany(() => MatchEntity, (match) => match.user_id_one)
+  matches: MatchEntity[];
 
-  @OneToMany(() => Match, (match) => match.user_id_two)
-  matches2: Match[];
+  @OneToMany(() => MatchEntity, (match) => match.user_id_two)
+  matches2: MatchEntity[];
 
-  @OneToMany(() => Message, (message) => message.user)
-  messages: Message[];
+  @OneToMany(() => MessageEntity, (message) => message.user)
+  messages: MessageEntity[];
 }

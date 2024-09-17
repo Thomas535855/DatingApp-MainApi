@@ -2,8 +2,7 @@
 import {UserDto} from "../../interfaces/dto";
 import Match from "./match";
 import {AppDataSource} from "../../data-source";
-import {UserEntity} from "../../database/entity";
-
+import { UserEntity } from "../../database/entity";
 export default class User implements IUser {
     // region properties
 
