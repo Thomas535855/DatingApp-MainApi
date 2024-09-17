@@ -6,12 +6,12 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Conversation } from "./Conversation";
-import { User } from "./User";
+import { ConversationEntity } from "./ConversationEntity"; // Adjust import based on file structure
+import { UserEntity } from "./UserEntity"; // Adjust import based on file structure
 
 @Index("Message_pkey", ["id"], { unique: true })
 @Entity("Message", { schema: "public" })
-export class Message {
+export class MessageEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   id: number;
 
@@ -25,13 +25,15 @@ export class Message {
   })
   created_date: Date | null;
 
-  @ManyToOne(() => Conversation, (conversation) => conversation.messages, {
+  // Foreign key to ConversationEntity (conversation_id)
+  @ManyToOne(() => ConversationEntity, (conversation) => conversation.messages, {
     onDelete: "CASCADE",
   })
   @JoinColumn([{ name: "conversation_id", referencedColumnName: "id" }])
-  conversation: Conversation;
+  conversation: ConversationEntity;
 
-  @ManyToOne(() => User, (user) => user.messages, { onDelete: "CASCADE" })
+  // Foreign key to UserEntity (user_id)
+  @ManyToOne(() => UserEntity, (user) => user.messages, { onDelete: "CASCADE" })
   @JoinColumn([{ name: "user_id", referencedColumnName: "id" }])
-  user: User;
+  user: UserEntity;
 }

@@ -1,12 +1,12 @@
-﻿import { User } from "./User"; 
-import { Match } from "./Match"; 
-import { Conversation } from "./Conversation"; 
-import { Message } from "./Message"; 
+﻿import { UserEntity } from "./UserEntity"; 
+import { MatchEntity } from "./MatchEntity"; 
+import { ConversationEntity } from "./ConversationEntity"; 
+import { MessageEntity } from "./MessageEntity"; 
 
 
 export {
-    User,
-    Match,
-    Message,
-    Conversation
+    UserEntity,
+    MatchEntity,
+    MessageEntity,
+    ConversationEntity
 }

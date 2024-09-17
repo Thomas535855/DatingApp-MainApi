@@ -8,7 +8,7 @@ import { Match } from "./Match";
 import { Message } from "./Message";
 
 @Entity("User", { schema: "public" })
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
@@ -24,10 +24,10 @@ export class User {
   @Column({ type: "varchar", length: 255, nullable: true })
   profile_picture: string | null;
 
-  @OneToMany(() => Match, (match) => match.userIdOne)
+  @OneToMany(() => Match, (match) => match.user_id_one)
   matches: Match[];
 
-  @OneToMany(() => Match, (match) => match.userIdTwo)
+  @OneToMany(() => Match, (match) => match.user_id_two)
   matches2: Match[];
 
   @OneToMany(() => Message, (message) => message.user)

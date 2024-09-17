@@ -6,21 +6,21 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { Match } from "./Match";
-import { Message } from "./Message";
+import { MatchEntity } from "./MatchEntity";
+import { MessageEntity } from "./MessageEntity";
 
 @Index("Conversation_pkey", ["id"], { unique: true })
 @Entity("Conversation", { schema: "public" })
-export class Conversation {
+export class ConversationEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
   id: number;
 
-  @ManyToOne(() => Match, (match) => match.conversations, {
+  @ManyToOne(() => MatchEntity, (match) => match.conversations, {
     onDelete: "CASCADE",
   })
   @JoinColumn([{ name: "match_id", referencedColumnName: "id" }])
-  match: Match;
-
-  @OneToMany(() => Message, (message) => message.conversation)
-  messages: Message[];
+  match: MatchEntity;
+  
+  @OneToMany(() => MessageEntity, (message) => message.conversation)
+  messages: MessageEntity[];
 }
