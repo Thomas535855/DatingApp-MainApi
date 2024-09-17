@@ -1,8 +1,8 @@
-﻿import {ConversationDto, MatchDto} from "../../interfaces/dto";
+﻿import {MatchDto} from "../../interfaces/dto";
 import Conversation from "./conversation";
 import {IMatch} from "../../interfaces/classes";
 import {AppDataSource} from "../../data-source";
-import {MatchEntity} from "../../database/entity";  // Assuming you have an entity for Match
+import {MatchEntity} from "../../database/entity";
 
 export default class Match implements IMatch {
     private _conversation?: Conversation;

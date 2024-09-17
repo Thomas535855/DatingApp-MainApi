@@ -2,26 +2,16 @@
 import sinon from 'sinon';
 import { AppDataSource } from '../../data-source';
 import User from '../../logic/classes/user';
-import { UserDto } from '../../interfaces/dto';
-
-// Mock data
-const mockUserDto: UserDto = {
-    id: 1,
-    first_name: 'John',
-    date_of_birth: new Date('1990-01-01'),
-    location: 'Somewhere',
-    profile_picture: 'profile.jpg',
-    matches: []
-};
+import { createMockUserDto } from '../fixtures/userFixtures';
 
 describe('User class', () => {
     let userRepositoryStub: any;
     let user: User;
 
     beforeEach(() => {
+        const mockUserDto = createMockUserDto();
         user = new User(mockUserDto);
 
-        // Stub the getRepository method to return a fake repository
         userRepositoryStub = {
             create: sinon.stub().returns({}),
             save: sinon.stub().resolves(),
@@ -40,7 +30,7 @@ describe('User class', () => {
     });
 
     afterEach(() => {
-        sinon.restore(); // Restore all stubs
+        sinon.restore();
     });
 
     describe('create()', () => {
