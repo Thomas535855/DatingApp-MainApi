@@ -13,14 +13,14 @@ import { MessageEntity } from "./MessageEntity";
 @Entity("Conversation", { schema: "public" })
 export class ConversationEntity {
   @PrimaryGeneratedColumn({ type: "integer", name: "id" })
-  id: number;
+  id?: number;
 
   @ManyToOne(() => MatchEntity, (match) => match.conversations, {
     onDelete: "CASCADE",
   })
   @JoinColumn([{ name: "match_id", referencedColumnName: "id" }])
-  match: MatchEntity;
+  match?: MatchEntity;
   
   @OneToMany(() => MessageEntity, (message) => message.conversation)
-  messages: MessageEntity[];
+  messages?: MessageEntity[];
 }

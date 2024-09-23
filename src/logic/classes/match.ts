@@ -49,17 +49,17 @@ export default class Match implements IMatch {
         this._user_id_one = match.user_id_one;
         this._user_id_two = match.user_id_two;
 
-        this._conversation = match.conversations.length
+        this._conversation = match.conversations?.length
             ? new Conversation({
                 id: match.conversations[0].id,
                 match_id: match.id,
-                messages: match.conversations[0].messages.map((message) => ({
+                messages: match.conversations[0].messages?.map((message) => ({
                     id: message.id,
                     content: message.content,
                     created_date: message.created_date ?? undefined,
                     conversation_id: message.conversation?.id,
                     user_id: message.user?.id ?? undefined,
-                })),
+                })) || [], 
             })
             : undefined;
     }
