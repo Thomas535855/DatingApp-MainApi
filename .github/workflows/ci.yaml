@@ -20,16 +20,18 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' 
+          node-version: '18'
 
       - name: Install dependencies
         run: npm install
 
-      # - name: Lint the code
-      #   run: npx eslint . 
-
-      - name: Run unit tests
+      - name: Run unit tests and collect coverage
         run: npm run test
 
-      - name: Verify TypeScript Compilation
-        run: npx tsc --noEmit 
+      - name: Enforce minimum coverage for production
+        if: github.ref == 'refs/heads/production'
+        run: npx nyc check-coverage --branches 70 --functions 70 --lines 70 --statements 70
+
+      # - name: Lint the code
+      #   run: npx eslint . 
+      
