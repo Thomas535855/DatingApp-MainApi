@@ -29,7 +29,7 @@ jobs:
         run: npm run test
 
       - name: Enforce minimum coverage for production
-        if: github.ref == 'refs/heads/production'
+        if: github.event.pull_request.base.ref == 'production' || github.ref == 'refs/heads/production'
         run: npx nyc check-coverage --branches 70 --functions 70 --lines 70 --statements 70
 
       # - name: Lint the code
