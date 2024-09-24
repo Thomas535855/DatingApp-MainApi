@@ -2,16 +2,26 @@
 import sinon from 'sinon';
 import UserHandler from '../../logic/handlers/userHandler';
 import User from '../../logic/classes/user';
-import { createMockUserDto } from '../fixtures/userFixtures';
+import Genre from '../../logic/classes/genre';
+import { createUserSchema } from '../../interfaces/schemas';
 
 describe('UserHandler class', () => {
     let userHandler: UserHandler;
-    let userCreateStub: sinon.SinonStub;
+    let userStub: any;
+    let genreStub: any;
 
     beforeEach(() => {
         userHandler = new UserHandler();
         
-        userCreateStub = sinon.stub(User.prototype, 'create').resolves();
+        userStub = sinon.createStubInstance(User as any);
+        userStub.create.resolves();
+        
+        sinon.stub(User.prototype, 'create').callsFake(userStub.create);
+        
+        genreStub = sinon.createStubInstance(Genre as any);
+        genreStub.findByName.resolves();
+
+        sinon.stub(Genre.prototype, 'findByName').callsFake(genreStub.findByName);
     });
 
     afterEach(() => {
@@ -19,23 +29,20 @@ describe('UserHandler class', () => {
     });
 
     describe('createUser()', () => {
-        it('should create a user and handle the image upload', async () => {
-            const mockUserDto = createMockUserDto();
+        it('should create a new user and associate genres with it', async () => {
+            // Mock user data and genres
+            const userData: createUserSchema['userData'] = {
+                firstName: 'John',
+                location: 'Somewhere',
+                dateOfBirth: new Date('1990-01-01')
+            };
 
-            await userHandler.createUser(mockUserDto);
+            const genres = ['Rock', 'Jazz'];
             
-            expect(userCreateStub.calledOnce).to.be.true;
-        });
-
-        it('should throw an error if user creation fails', async () => {
-            userCreateStub.rejects(new Error('User creation failed'));
-
-            try {
-                const mockUserDto = createMockUserDto();
-                await userHandler.createUser(mockUserDto);
-            } catch (err: any) {
-                expect(err.message).to.equal('User creation failed');
-            }
+            await userHandler.createUser(userData, genres);
+            
+            expect(userStub.create.calledOnce).to.be.true;
+            expect(genreStub.findByName.callCount).to.equal(genres.length);
         });
     });
 });

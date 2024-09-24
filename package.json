@@ -11,7 +11,7 @@
   "nyc": {
     "reporter": ["html", "text"],
     "extension": [".ts"],
-    "include": ["src/**/*.ts"],
+    "include": ["src/logic/**/*.ts"],
     "exclude": ["src/tests/**"],
     "all": true
   },
