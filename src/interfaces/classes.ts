@@ -7,6 +7,7 @@ export interface IUser{
     location?: string;
     profile_picture?: string;
     matches: IMatch[];
+    genres: IGenre[];
     
     toDto(): dto.UserDto
     create(): Promise<void>
@@ -52,5 +53,18 @@ export interface IMessage{
     read(): Promise<void>
     update(): Promise<void>
     delete(): Promise<void>
+}
+
+export interface IGenre{
+    id?: number;
+    name?: string;
+
+    toDto(): dto.MessageDto
+    create(): Promise<void>
+    read(): Promise<void>
+    update(): Promise<void>
+    delete(): Promise<void>
+    
+    findByName(): Promise<void>
 }
 

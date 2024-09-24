@@ -1,10 +1,11 @@
-﻿export interface UserDto{
+﻿export interface UserDto {
     id?: number;
     first_name?: string;
     date_of_birth?: Date;
     location?: string;
     profile_picture?: string;
-    matches: MatchDto[];
+    matches?: MatchDto[];
+    genres?: GenreDto[];
 }
 
 export interface MatchDto{
@@ -17,7 +18,7 @@ export interface MatchDto{
 export interface ConversationDto{
     id?: number;
     match_id?:number;
-    messages: MessageDto[]
+    messages?: MessageDto[]
 }
 
 export interface MessageDto{
@@ -26,5 +27,10 @@ export interface MessageDto{
     user_id?: number;
     content?: string;
     created_date?: Date;
+}
+
+export interface GenreDto{
+    id?: number;
+    name?: string;
 }
 

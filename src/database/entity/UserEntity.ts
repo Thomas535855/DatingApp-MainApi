@@ -6,9 +6,10 @@ import {
 } from "typeorm";
 import { MatchEntity } from "./MatchEntity";
 import { MessageEntity } from "./MessageEntity";
+import { UserGenreEntity } from "./UserGenreEntity";  
 
 @Entity("User", { schema: "public" })
-export class UserEntity { // Just export the class
+export class UserEntity {
   @PrimaryGeneratedColumn()
   id?: number;
 
@@ -32,4 +33,7 @@ export class UserEntity { // Just export the class
 
   @OneToMany(() => MessageEntity, (message) => message.user)
   messages?: MessageEntity[];
+  
+  @OneToMany(() => UserGenreEntity, (userGenre) => userGenre.user)
+  userGenres?: UserGenreEntity[];
 }

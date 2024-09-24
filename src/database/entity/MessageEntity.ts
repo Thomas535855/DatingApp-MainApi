@@ -6,8 +6,8 @@ import {
   ManyToOne,
   PrimaryGeneratedColumn,
 } from "typeorm";
-import { ConversationEntity } from "./ConversationEntity"; // Adjust import based on file structure
-import { UserEntity } from "./UserEntity"; // Adjust import based on file structure
+import { ConversationEntity } from "./ConversationEntity"; 
+import { UserEntity } from "./UserEntity";
 
 @Index("Message_pkey", ["id"], { unique: true })
 @Entity("Message", { schema: "public" })
