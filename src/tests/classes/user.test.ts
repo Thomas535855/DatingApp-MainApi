@@ -3,9 +3,11 @@ import sinon from 'sinon';
 import { AppDataSource } from '../../data-source';
 import User from '../../logic/classes/user';
 import { createMockUserDto } from '../fixtures/userFixtures';
+import { UserGenreEntity } from '../../database/entity';
 
 describe('User class', () => {
     let userRepositoryStub: any;
+    let userGenreRepositoryStub: any;
     let user: User;
 
     beforeEach(() => {
@@ -21,12 +23,23 @@ describe('User class', () => {
                 date_of_birth: new Date('1990-01-01'),
                 location: 'Somewhere',
                 profile_picture: 'profile.jpg',
-                matches: []
+                matches: [],
+                userGenres: []
             }),
             remove: sinon.stub().resolves()
         };
 
-        sinon.stub(AppDataSource, 'getRepository').returns(userRepositoryStub);
+        userGenreRepositoryStub = {
+            save: sinon.stub().resolves(),
+            delete: sinon.stub().resolves()
+        };
+
+        sinon.stub(AppDataSource, 'getRepository').callsFake((entity) => {
+            if (entity === UserGenreEntity) {
+                return userGenreRepositoryStub;
+            }
+            return userRepositoryStub;
+        });
     });
 
     afterEach(() => {
@@ -34,7 +47,7 @@ describe('User class', () => {
     });
 
     describe('create()', () => {
-        it('should create and save a new user', async () => {
+        it('should create and save a new user along with genres', async () => {
             await user.create();
 
             expect(userRepositoryStub.create.calledOnce).to.be.true;
@@ -43,6 +56,13 @@ describe('User class', () => {
             const createdUser = userRepositoryStub.create.getCall(0).args[0];
             expect(createdUser.first_name).to.equal('John');
             expect(createdUser.location).to.equal('Somewhere');
+
+            // Check if genres are saved when available
+            if (user.genres.length > 0) {
+                expect(userGenreRepositoryStub.save.calledOnce).to.be.true;
+                const savedGenres = userGenreRepositoryStub.save.getCall(0).args[0];
+                expect(savedGenres.length).to.equal(user.genres.length);
+            }
         });
     });
 
@@ -56,12 +76,15 @@ describe('User class', () => {
             }
         });
 
-        it('should load user data if ID is defined', async () => {
+        it('should load user data, including genres, if ID is defined', async () => {
             await user.read();
 
             expect(userRepositoryStub.findOne.calledOnce).to.be.true;
             const foundUser = userRepositoryStub.findOne.getCall(0).args[0];
             expect(foundUser.where.id).to.equal(1);
+
+            // Verify genres are loaded
+            expect(user.genres.length).to.equal(0); // Since mock data has no genres
         });
     });
 
@@ -88,11 +111,13 @@ describe('User class', () => {
     });
 
     describe('delete()', () => {
-        it('should delete the user when ID is defined', async () => {
+        it('should delete the user and associated genres when ID is defined', async () => {
             await user.delete();
 
             expect(userRepositoryStub.findOne.calledOnce).to.be.true;
             expect(userRepositoryStub.remove.calledOnce).to.be.true;
+            
+            expect(userGenreRepositoryStub.delete.calledOnce).to.be.true;
         });
 
         it('should throw an error if user ID is not defined', async () => {
