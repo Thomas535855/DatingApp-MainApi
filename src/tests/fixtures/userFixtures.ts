@@ -1,4 +1,4 @@
-import {MatchDto, UserDto, ConversationDto, MessageDto} from '../../interfaces/dto';
+import {MatchDto, UserDto, ConversationDto, MessageDto, GenreDto} from '../../interfaces/dto';
 
 export const createMockUserDto = (overrides?: Partial<UserDto>): UserDto => {
   return {
@@ -51,3 +51,8 @@ export const createMockMessageDto = (overrides?: Partial<MessageDto>): MessageDt
     ...overrides
   };
 };
+
+export const createMockGenreDto = ():GenreDto => ({
+  id: 1,
+  name: 'someGenre', 
+});

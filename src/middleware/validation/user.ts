@@ -10,3 +10,21 @@ export const postCreate = (req: Request, res: Response, next: NextFunction) => {
 
     next();
 };
+
+export const userIdGet = (req: Request, res: Response, next: NextFunction) => {
+    const { userId } = req.params;
+    
+    if(!userId && typeof parseInt(userId) !== 'number'){
+        return res.status(400).json({ message: "invalid userId provided"})
+    }
+    
+    next();
+}
+
+export const uploadImage = (req: Request, res: Response, next: NextFunction) => {
+    if (!req.file) {
+        return res.status(400).json({ message: "no image provided"})
+    }
+    
+    next();
+}

@@ -4,15 +4,16 @@ import { AppDataSource } from '../../data-source';
 import Message from '../../logic/classes/message';
 import { createMockMessageDto } from '../fixtures/userFixtures';
 import { MessageEntity, ConversationEntity, UserEntity } from '../../database/entity';
+import {MessageDto} from "../../interfaces/dto";
 
-describe('Message class', () => {
+describe('Message class', ():void => {
   let messageRepositoryStub: any;
   let conversationRepositoryStub: any;
   let userRepositoryStub: any;
   let message: Message;
 
-  beforeEach(() => {
-    const mockMessageDto = createMockMessageDto();
+  beforeEach(():void => {
+    const mockMessageDto:MessageDto = createMockMessageDto();
     message = new Message(mockMessageDto);
 
     // Mock repositories
@@ -43,12 +44,12 @@ describe('Message class', () => {
       .withArgs(UserEntity).returns(userRepositoryStub);
   });
 
-  afterEach(() => {
+  afterEach(():void => {
     sinon.restore();
   });
 
-  describe('create()', () => {
-    it('should create and save a new message', async () => {
+  describe('create()', ():void => {
+    it('should create and save a new message', async ():Promise<void> => {
       await message.create();
 
       expect(messageRepositoryStub.create.calledOnce).to.be.true;
@@ -61,8 +62,8 @@ describe('Message class', () => {
     });
   });
 
-  describe('read()', () => {
-    it('should throw an error if message ID is undefined', async () => {
+  describe('read()', ():void => {
+    it('should throw an error if message ID is undefined', async ():Promise<void> => {
       message.id = undefined;
 
       try {
@@ -72,7 +73,7 @@ describe('Message class', () => {
       }
     });
 
-    it('should load message data when ID is defined', async () => {
+    it('should load message data when ID is defined', async ():Promise<void> => {
       await message.read();
 
       expect(messageRepositoryStub.findOne.calledOnce).to.be.true;
@@ -83,8 +84,8 @@ describe('Message class', () => {
     });
   });
 
-  describe('update()', () => {
-    it('should update message data when message is found', async () => {
+  describe('update()', ():void => {
+    it('should update message data when message is found', async ():Promise<void> => {
       await message.update();
 
       expect(messageRepositoryStub.findOne.calledOnce).to.be.true;
@@ -94,7 +95,7 @@ describe('Message class', () => {
       expect(updatedMessage).to.have.property('content', 'Test message content');
     });
 
-    it('should throw an error if message ID is undefined', async () => {
+    it('should throw an error if message ID is undefined', async ():Promise<void> => {
       message.id = undefined;
 
       try {
@@ -104,7 +105,7 @@ describe('Message class', () => {
       }
     });
 
-    it('should throw an error if conversation ID is not found', async () => {
+    it('should throw an error if conversation ID is not found', async ():Promise<void> => {
       conversationRepositoryStub.findOne.resolves(null); // Simulate no conversation found
       message.conversation_id = 999;
 
@@ -115,7 +116,7 @@ describe('Message class', () => {
       }
     });
 
-    it('should throw an error if user ID is not found', async () => {
+    it('should throw an error if user ID is not found', async ():Promise<void> => {
       userRepositoryStub.findOne.resolves(null);
       message.user_id = 999;
 
@@ -127,15 +128,15 @@ describe('Message class', () => {
     });
   });
 
-  describe('delete()', () => {
-    it('should delete the message when ID is defined', async () => {
+  describe('delete()', ():void => {
+    it('should delete the message when ID is defined', async ():Promise<void> => {
       await message.delete();
 
       expect(messageRepositoryStub.findOne.calledOnce).to.be.true;
       expect(messageRepositoryStub.remove.calledOnce).to.be.true;
     });
 
-    it('should throw an error if message ID is undefined', async () => {
+    it('should throw an error if message ID is undefined', async ():Promise<void> => {
       message.id = undefined;
 
       try {

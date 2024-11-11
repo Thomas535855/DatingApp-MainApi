@@ -26,7 +26,7 @@ const ALLOWED_HEADERS = [
 ].join(", ");
 
 app.use((req, res, next) => {
-    res.header("Access-Control-Allow-Origin", '*');
+    res.header("Access-Control-Allow-Origin", "http://localhost:3000");
     res.header("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PATCH, PUT, DELETE");
     res.header("Access-Control-Allow-Credentials", "true");
     res.header("Access-Control-Allow-Headers", ALLOWED_HEADERS);
@@ -53,5 +53,11 @@ await AppDataSource.initialize()
 
 // Load routes after initializing DB
 import userRouter from "./routes/user";
+import matchRouter from "./routes/match"
 
 app.use("/user", userRouter);
+app.use("/match", matchRouter);
+
+app.all("*", (req, res) => {
+    res.status(404).json({ status: "error", message: "We could not find what you're looking for!" });
+});

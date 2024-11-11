@@ -5,12 +5,12 @@ import Conversation from '../../logic/classes/conversation';
 import { createMockConversationDto } from '../fixtures/userFixtures';
 import { ConversationEntity, MatchEntity } from '../../database/entity';
 
-describe('Conversation class', () => {
+describe('Conversation class', ():void => {
   let conversationRepositoryStub: any;
   let matchRepositoryStub: any;
   let conversation: Conversation;
 
-  beforeEach(() => {
+  beforeEach(():void => {
     const mockConversationDto = createMockConversationDto();
     conversation = new Conversation(mockConversationDto);
     
@@ -38,12 +38,12 @@ describe('Conversation class', () => {
       .withArgs(MatchEntity).returns(matchRepositoryStub);
   });
 
-  afterEach(() => {
+  afterEach(():void => {
     sinon.restore();
   });
 
-  describe('create()', () => {
-    it('should create and save a new conversation', async () => {
+  describe('create()', ():void => {
+    it('should create and save a new conversation', async ():Promise<void> => {
       await conversation.create();
 
       expect(conversationRepositoryStub.save.calledOnce).to.be.true;
@@ -52,7 +52,7 @@ describe('Conversation class', () => {
       expect(savedConversation.match).to.have.property('id', 1);
     });
 
-    it('should throw an error if the match is not found', async () => {
+    it('should throw an error if the match is not found', async ():Promise<void> => {
       matchRepositoryStub.findOne.resolves(null); // Simulate no match found
 
       try {
@@ -64,7 +64,7 @@ describe('Conversation class', () => {
   });
 
   describe('read()', () => {
-    it('should throw an error if conversation ID is undefined', async () => {
+    it('should throw an error if conversation ID is undefined', async ():Promise<void> => {
       conversation.id = undefined;
 
       try {
@@ -74,7 +74,7 @@ describe('Conversation class', () => {
       }
     });
 
-    it('should load conversation data when ID is defined', async () => {
+    it('should load conversation data when ID is defined', async ():Promise<void> => {
       await conversation.read();
 
       expect(conversationRepositoryStub.findOne.calledOnce).to.be.true;
@@ -85,7 +85,7 @@ describe('Conversation class', () => {
   });
 
   describe('update()', () => {
-    it('should update conversation data when conversation is found', async () => {
+    it('should update conversation data when conversation is found', async ():Promise<void> => {
       await conversation.update();
 
       expect(conversationRepositoryStub.findOne.calledOnce).to.be.true;
@@ -95,7 +95,7 @@ describe('Conversation class', () => {
       expect(updatedConversation.match).to.have.property('id', 1);
     });
 
-    it('should throw an error if conversation ID is undefined', async () => {
+    it('should throw an error if conversation ID is undefined', async ():Promise<void> => {
       conversation.id = undefined;
 
       try {
@@ -107,14 +107,14 @@ describe('Conversation class', () => {
   });
 
   describe('delete()', () => {
-    it('should delete the conversation when ID is defined', async () => {
+    it('should delete the conversation when ID is defined', async ():Promise<void> => {
       await conversation.delete();
 
       expect(conversationRepositoryStub.findOne.calledOnce).to.be.true;
       expect(conversationRepositoryStub.remove.calledOnce).to.be.true;
     });
 
-    it('should throw an error if conversation ID is undefined', async () => {
+    it('should throw an error if conversation ID is undefined', async ():Promise<void> => {
       conversation.id = undefined;
 
       try {

@@ -7,6 +7,7 @@ export const createUserSchema = z.object({
             message: "Valid date of birth is required",
         }),
         location: z.string().nullable().optional(),
+        profilePicture: z.string().nullable().optional()
     }),
-    genres: z.array(z.string()).min(1, "Genres must be an array of strings"),
+    genres: z.array(z.string()).min(0, "Genres must be an array of strings"),
 });

@@ -4,13 +4,14 @@ import { AppDataSource } from '../../data-source';
 import Match from '../../logic/classes/match';
 import { createMockMatchDto } from '../fixtures/userFixtures';
 import Conversation from '../../logic/classes/conversation';
+import {MatchDto} from "../../interfaces/dto";
 
-describe('Match class', () => {
+describe('Match class', ():void => {
   let matchRepositoryStub: any;
   let match: Match;
 
-  beforeEach(() => {
-    const mockMatchDto = createMockMatchDto();
+  beforeEach(():void => {
+    const mockMatchDto:MatchDto = createMockMatchDto();
     match = new Match(mockMatchDto);
 
     // Mock repositories
@@ -43,12 +44,12 @@ describe('Match class', () => {
   });
 
 
-  afterEach(() => {
+  afterEach(():void => {
     sinon.restore();
   });
 
-  describe('create()', () => {
-    it('should create and save a new match', async () => {
+  describe('create()', ():void => {
+    it('should create and save a new match', async ():Promise<void> => {
       await match.create();
 
       expect(matchRepositoryStub.create.calledOnce).to.be.true;
@@ -60,8 +61,8 @@ describe('Match class', () => {
     });
   });
 
-  describe('read()', () => {
-    it('should throw an error if match ID is undefined', async () => {
+  describe('read()', ():void => {
+    it('should throw an error if match ID is undefined', async ():Promise<void> => {
       match.id = undefined;
 
       try {
@@ -71,7 +72,7 @@ describe('Match class', () => {
       }
     });
 
-    it('should load match data when ID is defined', async () => {
+    it('should load match data when ID is defined', async ():Promise<void> => {
       await match.read();
 
       expect(matchRepositoryStub.findOne.calledOnce).to.be.true;
@@ -83,7 +84,7 @@ describe('Match class', () => {
   });
 
   describe('update()', () => {
-    it('should update match data when match is found', async () => {
+    it('should update match data when match is found', async ():Promise<void> => {
       await match.update();
 
       expect(matchRepositoryStub.findOne.calledOnce).to.be.true;
@@ -94,7 +95,7 @@ describe('Match class', () => {
       expect(updatedMatch).to.have.property('user_id_two', 2);
     });
 
-    it('should throw an error if match ID is undefined', async () => {
+    it('should throw an error if match ID is undefined', async ():Promise<void> => {
       match.id = undefined;
 
       try {
@@ -105,15 +106,15 @@ describe('Match class', () => {
     });
   });
 
-  describe('delete()', () => {
-    it('should delete the match when ID is defined', async () => {
+  describe('delete()', ():void => {
+    it('should delete the match when ID is defined', async ():Promise<void> => {
       await match.delete();
 
       expect(matchRepositoryStub.findOne.calledOnce).to.be.true;
       expect(matchRepositoryStub.remove.calledOnce).to.be.true;
     });
 
-    it('should throw an error if match ID is undefined', async () => {
+    it('should throw an error if match ID is undefined', async ():Promise<void> => {
       match.id = undefined;
 
       try {

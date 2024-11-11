@@ -4,14 +4,15 @@ import { AppDataSource } from '../../data-source';
 import User from '../../logic/classes/user';
 import { createMockUserDto } from '../fixtures/userFixtures';
 import { UserGenreEntity } from '../../database/entity';
+import {UserDto} from "../../interfaces/dto";
 
-describe('User class', () => {
+describe('User class', ():void => {
     let userRepositoryStub: any;
     let userGenreRepositoryStub: any;
     let user: User;
 
-    beforeEach(() => {
-        const mockUserDto = createMockUserDto();
+    beforeEach(():void => {
+        const mockUserDto:UserDto = createMockUserDto();
         user = new User(mockUserDto);
 
         userRepositoryStub = {
@@ -34,7 +35,7 @@ describe('User class', () => {
             delete: sinon.stub().resolves()
         };
 
-        sinon.stub(AppDataSource, 'getRepository').callsFake((entity) => {
+        sinon.stub(AppDataSource, 'getRepository').callsFake((entity):any => {
             if (entity === UserGenreEntity) {
                 return userGenreRepositoryStub;
             }
@@ -42,12 +43,12 @@ describe('User class', () => {
         });
     });
 
-    afterEach(() => {
+    afterEach(():void => {
         sinon.restore();
     });
 
-    describe('create()', () => {
-        it('should create and save a new user along with genres', async () => {
+    describe('create()', ():void => {
+        it('should create and save a new user along with genres', async ():Promise<void> => {
             await user.create();
 
             expect(userRepositoryStub.create.calledOnce).to.be.true;
@@ -66,18 +67,18 @@ describe('User class', () => {
         });
     });
 
-    describe('read()', () => {
-        it('should throw an error if user ID is not defined', async () => {
+    describe('readDeep()', ():void => {
+        it('should throw an error if user ID is not defined', async ():Promise<void> => {
             user.id = undefined;
             try {
-                await user.read();
+                await user.readDeep();
             } catch (err:any) {
                 expect(err.message).to.equal('User ID is undefined');
             }
         });
 
-        it('should load user data, including genres, if ID is defined', async () => {
-            await user.read();
+        it('should load user data, including genres, if ID is defined', async ():Promise<void> => {
+            await user.readDeep();
 
             expect(userRepositoryStub.findOne.calledOnce).to.be.true;
             const foundUser = userRepositoryStub.findOne.getCall(0).args[0];
@@ -88,8 +89,8 @@ describe('User class', () => {
         });
     });
 
-    describe('update()', () => {
-        it('should update user data when user is found', async () => {
+    describe('update()', ():void => {
+        it('should update user data when user is found', async ():Promise<void> => {
             await user.update();
 
             expect(userRepositoryStub.findOne.calledOnce).to.be.true;
@@ -100,7 +101,7 @@ describe('User class', () => {
             expect(updatedUser.location).to.equal('Somewhere');
         });
 
-        it('should throw an error if user ID is not defined', async () => {
+        it('should throw an error if user ID is not defined', async ():Promise<void> => {
             user.id = undefined;
             try {
                 await user.update();
@@ -110,8 +111,8 @@ describe('User class', () => {
         });
     });
 
-    describe('delete()', () => {
-        it('should delete the user and associated genres when ID is defined', async () => {
+    describe('delete()', ():void => {
+        it('should delete the user and associated genres when ID is defined', async ():Promise<void> => {
             await user.delete();
 
             expect(userRepositoryStub.findOne.calledOnce).to.be.true;
@@ -120,7 +121,7 @@ describe('User class', () => {
             expect(userGenreRepositoryStub.delete.calledOnce).to.be.true;
         });
 
-        it('should throw an error if user ID is not defined', async () => {
+        it('should throw an error if user ID is not defined', async ():Promise<void> => {
             user.id = undefined;
             try {
                 await user.delete();

@@ -3,6 +3,7 @@
         firstName: string,
         dateOfBirth: Date,
         location: string;
+        profilePicture
     },
     genres: string[];
 }

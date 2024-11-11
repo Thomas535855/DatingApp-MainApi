@@ -4,20 +4,20 @@ import rj from "../../utils/res-json";
 import logger from '../../utils/logger'
 // Handlers
 import UserHandler from "../../logic/handlers/UserHandler";
-import {createUserSchema} from "../../interfaces/schemas";
+import {UserDto} from "../../interfaces/dto";
 
-// PATH: POST /create
+// PATH: GET /:userId/get
 export default async (req: Request, res: Response): Promise<void> => {
-    const { userData, genres } = req.body as createUserSchema
+    const {userId} = req.params
 
     try {
         const userHandler = new UserHandler();
-
-        await userHandler.createUser(userData, genres);
         
-        logger.info(`User created successfully: ${JSON.stringify(userData)}`);
+        const user:UserDto = await userHandler.getUser(parseInt(userId))
 
-        rj.success(res, [200]);
+        logger.info(`User read successfully ${userId}`);
+
+        rj.success(res, [200, user as any]);
     } catch (error:Error) {
         logger.error(`Error creating user: ${error.message}`, { error });
 
