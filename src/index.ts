@@ -1,19 +1,19 @@
 import express from "express";
 import dotenv from "dotenv";
-import {AppDataSource} from "./data-source";
+import { AppDataSource } from "./data-source";
 
 // Load the environment variables
 if (process.platform === "win32" || process.env.NODE_ENV === "development") {
-    dotenv.config({path: "./.env.development"});
+    dotenv.config({ path: "./.env.development" });
 } else {
-    dotenv.config();  // Default loads .env
+    dotenv.config(); // Default loads .env
 }
 
 const app = express();
 
 // Middleware for JSON and URL-encoded form data
 app.use(express.json());
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 
 // CORS settings
 const ALLOWED_HEADERS = [
@@ -37,27 +37,21 @@ app.use((req, res, next) => {
     next();
 });
 
-// Initialize the database connection
-await AppDataSource.initialize()
-    .then(() => {
-
-        // Start the server after database initialization
-        const port = process.env.PORT || 3000;
-        app.listen(port, () => {
-            console.log(`Server is running on port ${port}`);
-        });
-    })
-    .catch((error) => {
-        console.error("Error during Data Source initialization:", error);
-    });
-
 // Load routes after initializing DB
 import userRouter from "./routes/user";
-import matchRouter from "./routes/match"
+import matchRouter from "./routes/match";
 
 app.use("/user", userRouter);
 app.use("/match", matchRouter);
 
-app.all("*", (req, res) => {
-    res.status(404).json({ status: "error", message: "We could not find what you're looking for!" });
+app.get('/health', (req, res) => {
+    res.status(200).json({ status: 'ok' });
 });
+
+app.all('*', (req, res) => {
+    res.status(404).json({ status: 'error', message: "We could not find what you're looking for!" });
+});
+
+
+// Export `app` for testing purposes
+export { app };

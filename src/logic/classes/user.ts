@@ -7,7 +7,6 @@ import Genre from "./genre";
 import {Repository} from "typeorm";
 export default class User implements IUser {
     // region properties
-
     private _date_of_birth?: Date;
     private _first_name?: string;
     private _id?: number;
@@ -15,7 +14,6 @@ export default class User implements IUser {
     private _profile_picture?: string;
     private _matches: Match[];
     private _genres: Genre[];
-
     //endregion
 
     constructor(user: UserDto) {

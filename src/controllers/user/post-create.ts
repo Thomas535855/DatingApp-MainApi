@@ -3,7 +3,7 @@
 import rj from "../../utils/res-json";
 import logger from '../../utils/logger'
 // Handlers
-import UserHandler from "../../logic/handlers/UserHandler";
+import UserHandler from "../../logic/handlers/userHandler";
 import {createUserSchema} from "../../interfaces/schemas";
 
 // PATH: POST /create
@@ -18,7 +18,7 @@ export default async (req: Request, res: Response): Promise<void> => {
         logger.info(`User created successfully: ${JSON.stringify(userData)}`);
 
         rj.success(res, [200]);
-    } catch (error:Error) {
+    } catch (error:any) {
         logger.error(`Error creating user: ${error.message}`, { error });
 
         rj.error(res, [500]);
